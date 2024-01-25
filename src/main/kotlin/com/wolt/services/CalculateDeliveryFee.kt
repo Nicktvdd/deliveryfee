@@ -30,7 +30,9 @@ fun calculateDeliveryFee(request: DeliveryRequest): Int {
 		}
 	}
 
-
+	if (isItRush(request.time)) {
+		calculatedFee *= 1.2.toInt()
+	}
 	//calculatedFee += (minimumOrderFee + distanceFee + itemFee)
 
 	if (calculatedFee > 15){

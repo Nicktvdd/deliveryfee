@@ -10,12 +10,14 @@ import kotlin.test.*
 class ApplicationTest {
 	@Test
 	fun testRoot() = testApplication {
+		val requestBody = """{"cart_value": 790, "delivery_distance": 2235, "number_of_items": 4, "time": "2024-01-15T13:00:00Z"}"""
+
 		application {
 			configureRouting()
 		}
-		client.get("/").apply {
+		client.post("/delivery-fee").apply {
 			assertEquals(HttpStatusCode.OK, status)
-			assertEquals("Hello World!", bodyAsText())
+			assertEquals("application/json; charset=UTF-8", contentType().toString())
 		}
 	}
 }
