@@ -1,11 +1,12 @@
 package com.wolt.data.model
 
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.SerialName
 
 @Serializable
 data class DeliveryRequest(
-	val cartValue: Int,
-	val deliveryDistance: Int,
-	val numberOfItems: Int,
+	@SerialName("cart_value") val cartValue: Int,
+	@SerialName("delivery_distance") val deliveryDistance: Int,
+	@SerialName("number_of_items") val numberOfItems: Int,
 	val time: String
 )

@@ -7,7 +7,7 @@ fun calculateDeliveryFee(request: DeliveryRequest): Int {
 	var calculatedFee: Int = 2
 
 	// separate into functions!!
-	if (request.cartValue > 200) {
+	if (request.cartValue > 20000) {
 		return 0
 	}
 
