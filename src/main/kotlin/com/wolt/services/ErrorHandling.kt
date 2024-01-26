@@ -10,4 +10,6 @@ suspend fun errorHandling(call: ApplicationCall, request: DeliveryRequest) {
 		call.respond(HttpStatusCode.BadRequest, "Invalid cart value")
 	if (request.numberOfItems <= 0)
 		call.respond(HttpStatusCode.BadRequest, "Invalid amount of items")
+	if (request.deliveryDistance < 0)
+		call.respond(HttpStatusCode.BadRequest, "Invalid distance")
 }

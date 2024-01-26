@@ -1,47 +1,60 @@
 package com.wolt.services
 
 import com.wolt.data.model.DeliveryRequest
-import kotlin.math.floor
+import kotlin.math.ceil
 
 fun calculateDeliveryFee(request: DeliveryRequest): Int {
-	if (request.cartValue > 20000) {
+	val freeDelivery = 20000
+	val rushMultiplier = 1.2
+	val maxDeliveryFee = 1500
+	var calculatedFee = 0
+
+	if (request.cartValue > freeDelivery) {
 		return 0
 	}
-	var calculatedFee = 2
 	val minimumOrderFee = calculateMinimumOrderFee(request.cartValue)
 	val distanceFee = calculateDistanceFee(request.deliveryDistance)
 	val itemFee = calculateItemFee(request.numberOfItems)
 
+	calculatedFee += (minimumOrderFee + distanceFee + itemFee)
+
 	if (isItRush(request.time)) {
-		calculatedFee *= 1.2.toInt()
+		calculatedFee = (calculatedFee * rushMultiplier).toInt()
 	}
 
-	calculatedFee += (minimumOrderFee + distanceFee + itemFee)
-	if (calculatedFee > 15) {
-		calculatedFee = 15
+
+	if (calculatedFee > maxDeliveryFee) {
+		calculatedFee = maxDeliveryFee
 	}
 
 	return calculatedFee
 }
 
 fun calculateMinimumOrderFee(cartValue: Int): Int {
-	return if (cartValue < 1000) {
-		1000 - cartValue
+	val minimumCartValue = 1000
+
+	return if (cartValue < minimumCartValue) {
+		minimumCartValue - cartValue
 	} else {
 		0
 	}
 }
 
 fun calculateDistanceFee(deliveryDistance: Int): Int {
-	return if (deliveryDistance > 1000) {
-		val extraDistance = deliveryDistance - 1000
-		val distanceIn500s = extraDistance / 500
-		val roundedDown = floor(distanceIn500s.toDouble()).toInt()
-		roundedDown * 100
-	} else {
-		0
+	val baseDeliveryDistance = 1000
+	val baseFee = 200
+	var fee = baseFee
+	val additionalDistance = maxOf(0, deliveryDistance - baseDeliveryDistance)
+
+	if (additionalDistance > 0) {
+		val additionalFee = (ceil(additionalDistance.toDouble() / 500).toInt()) * 100
+		fee += additionalFee
 	}
+
+	// The minimum fee is always 1€
+	return maxOf(100, fee)
 }
+
 
 fun calculateItemFee(numberOfItems: Int): Int {
 	return if (numberOfItems >= 5) {
