@@ -51,17 +51,21 @@ fun calculateDistanceFee(deliveryDistance: Int): Int {
 		fee += additionalFee
 	}
 
-	// The minimum fee is always 1€
-	return maxOf(100, fee)
+	return fee
 }
 
 
 fun calculateItemFee(numberOfItems: Int): Int {
-	return if (numberOfItems >= 5) {
-		val extraItems = numberOfItems - 4
-		var itemFee = extraItems * 50
-		if (numberOfItems > 12) {
-			itemFee += 120
+	val baseAmountItems = 4
+	val extraItemFee = 50
+	val bulkItems = 12
+	val bulkItemFee = 120
+
+	return if (numberOfItems > baseAmountItems) {
+		val extraItems = numberOfItems - baseAmountItems
+		var itemFee = extraItems * extraItemFee
+		if (numberOfItems > bulkItems) {
+			itemFee += bulkItemFee
 		}
 		itemFee
 	} else {
