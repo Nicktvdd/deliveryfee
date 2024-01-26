@@ -22,7 +22,6 @@ fun calculateDeliveryFee(request: DeliveryRequest): Int {
 		calculatedFee = (calculatedFee * rushMultiplier).toInt()
 	}
 
-
 	if (calculatedFee > maxDeliveryFee) {
 		calculatedFee = maxDeliveryFee
 	}

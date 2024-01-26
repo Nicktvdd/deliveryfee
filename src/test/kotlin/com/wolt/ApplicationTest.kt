@@ -10,60 +10,62 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class CustomerTests {
-	@Test
-	fun testNormal() = testApplication {
+
+	fun testTemplate(request: String, expectedResult: String, expectedStatusCode: HttpStatusCode) = testApplication {
 		application {
 			configureSerialization()
-			configureRouting() // Replace this with the actual configuration of your routes
+			configureRouting()
 		}
 
 		val response = client.post("/api/delivery-fee") {
 			contentType(ContentType.Application.Json)
-			setBody("""{"cart_value": 790, "delivery_distance": 2235, "number_of_items": 4, "time": "2024-01-15T13:00:00Z"}""")
+			setBody(request)
 		}
-		assertEquals("""{"deliveryFee":710}""", response.bodyAsText())
-		assertEquals(HttpStatusCode.OK, response.status)
+		assertEquals(expectedResult, response.bodyAsText())
+		assertEquals(expectedStatusCode, response.status)
+	}
+
+	@Test
+	fun normalTest() = testApplication {
+		testTemplate(
+			"""{"cart_value": 790, "delivery_distance": 2235, "number_of_items": 4, "time": "2024-01-15T13:00:00Z"}""",
+			"""{"deliveryFee":710}""",
+			HttpStatusCode.OK
+		)
+	}
+
+	@Test
+	fun badCartValueTest() = testApplication {
+		testTemplate(
+			"""{"cart_value": -1, "delivery_distance": 2235, "number_of_items": 4, "time": "2024-01-15T13:00:00Z"}""",
+			"Invalid cart value",
+			HttpStatusCode.BadRequest
+		)
+	}
+
+	@Test
+	fun badItemAmountTest() = testApplication {
+		testTemplate(
+			"""{"cart_value": 790, "delivery_distance": 2235, "number_of_items": 0, "time": "2024-01-15T13:00:00Z"}""",
+			"Invalid amount of items",
+			HttpStatusCode.BadRequest
+		)
+	}
+
+	@Test
+	fun badDistanceTest() = testApplication {
+		testTemplate(
+			"""{"cart_value": 790, "delivery_distance": -1, "number_of_items": 4, "time": "2024-01-15T13:00:00Z"}""",
+			"Invalid distance",
+			HttpStatusCode.BadRequest
+		)
 	}
 	@Test
-	fun testBadCartValue() = testApplication {
-		application {
-			configureSerialization()
-			configureRouting() // Replace this with the actual configuration of your routes
-		}
-
-		val response = client.post("/api/delivery-fee") {
-			contentType(ContentType.Application.Json)
-			setBody("""{"cart_value": -1, "delivery_distance": 2235, "number_of_items": 4, "time": "2024-01-15T13:00:00Z"}""")
-		}
-		assertEquals("Invalid cart value", response.bodyAsText())
-		assertEquals(HttpStatusCode.BadRequest, response.status)
-	}
-	@Test
-	fun testBadItemAmount() = testApplication {
-		application {
-			configureSerialization()
-			configureRouting() // Replace this with the actual configuration of your routes
-		}
-
-		val response = client.post("/api/delivery-fee") {
-			contentType(ContentType.Application.Json)
-			setBody("""{"cart_value": 790, "delivery_distance": 2235, "number_of_items": 0, "time": "2024-01-15T13:00:00Z"}""")
-		}
-		assertEquals("Invalid amount of items", response.bodyAsText())
-		assertEquals(HttpStatusCode.BadRequest, response.status)
-	}
-	@Test
-	fun testBadDistance() = testApplication {
-		application {
-			configureSerialization()
-			configureRouting() // Replace this with the actual configuration of your routes
-		}
-
-		val response = client.post("/api/delivery-fee") {
-			contentType(ContentType.Application.Json)
-			setBody("""{"cart_value": 790, "delivery_distance": -1, "number_of_items": 4, "time": "2024-01-15T13:00:00Z"}""")
-		}
-		assertEquals("Invalid distance", response.bodyAsText())
-		assertEquals(HttpStatusCode.BadRequest, response.status)
+	fun gibberishTest() = testApplication {
+		testTemplate(
+			"""{"cart_value": 79ery_distance": -, "numbf_items": 4, "time": "20201-15T13:00:00Z"}""",
+			"",
+			HttpStatusCode.BadRequest
+		)
 	}
 }
