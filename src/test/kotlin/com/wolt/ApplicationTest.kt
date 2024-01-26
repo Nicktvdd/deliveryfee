@@ -21,7 +21,7 @@ class CustomerTests {
 			contentType(ContentType.Application.Json)
 			setBody("""{"cart_value": 790, "delivery_distance": 2235, "number_of_items": 4, "time": "2024-01-15T13:00:00Z"}""")
 		}
-		assertEquals("""{"deliveryFee":15}""", response.bodyAsText())
+		assertEquals("""{"deliveryFee":710}""", response.bodyAsText())
 		assertEquals(HttpStatusCode.OK, response.status)
 	}
 	@Test
