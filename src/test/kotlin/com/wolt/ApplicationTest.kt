@@ -1,25 +1,27 @@
 package com.wolt
 
-import com.wolt.plugins.*
+import com.wolt.plugins.configureRouting
+import com.wolt.plugins.configureSerialization
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import io.ktor.http.*
 import io.ktor.server.testing.*
-import kotlin.test.*
+import kotlin.test.Test
+import kotlin.test.assertEquals
 
-class ApplicationTest {
+class CustomerTests {
 	@Test
-	fun testApi() {
-		val requestBody = """{"cart_value": 790, "delivery_distance": 2235, "number_of_items": 4, "time": "2024-01-15T13:00:00Z"}"""
-
-		val jsonData = jacksonObjectMapper().
+	fun testPostCustomer() = testApplication {
 		application {
-			configureRouting()
+			configureSerialization()
+			configureRouting() // Replace this with the actual configuration of your routes
 		}
-		client.post("/api/delivery-fee").apply {
-			setBody(requestBody)
-			assertEquals(HttpStatusCode.OK, status)
-			assertEquals("application/json; charset=UTF-8", contentType().toString())
+
+		val response = client.post("/api/delivery-fee") {
+			contentType(ContentType.Application.Json)
+			setBody("""{"cart_value": 790, "delivery_distance": 2235, "number_of_items": 4, "time": "2024-01-15T13:00:00Z"}""")
 		}
+		assertEquals("""{"deliveryFee":2}""", response.bodyAsText())
+		assertEquals(HttpStatusCode.OK, response.status)
 	}
 }
