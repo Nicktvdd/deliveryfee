@@ -1,7 +1,9 @@
 package com.wolt.services
 
 import com.wolt.data.model.DeliveryRequest
-import kotlin.math.ceil
+import com.wolt.services.CalculationServices.calculateDistanceFee
+import com.wolt.services.CalculationServices.calculateItemFee
+import com.wolt.services.CalculationServices.calculateMinimumOrderFee
 
 fun calculateDeliveryFee(request: DeliveryRequest): Int {
 	val freeDelivery = 20000
@@ -29,45 +31,4 @@ fun calculateDeliveryFee(request: DeliveryRequest): Int {
 	return calculatedFee
 }
 
-fun calculateMinimumOrderFee(cartValue: Int): Int {
-	val minimumCartValue = 1000
 
-	return if (cartValue < minimumCartValue) {
-		minimumCartValue - cartValue
-	} else {
-		0
-	}
-}
-
-fun calculateDistanceFee(deliveryDistance: Int): Int {
-	val baseDeliveryDistance = 1000
-	val baseFee = 200
-	var fee = baseFee
-	val additionalDistance = maxOf(0, deliveryDistance - baseDeliveryDistance)
-
-	if (additionalDistance > 0) {
-		val additionalFee = (ceil(additionalDistance.toDouble() / 500).toInt()) * 100
-		fee += additionalFee
-	}
-
-	return fee
-}
-
-
-fun calculateItemFee(numberOfItems: Int): Int {
-	val baseAmountItems = 4
-	val extraItemFee = 50
-	val bulkItems = 12
-	val bulkItemFee = 120
-
-	return if (numberOfItems > baseAmountItems) {
-		val extraItems = numberOfItems - baseAmountItems
-		var itemFee = extraItems * extraItemFee
-		if (numberOfItems > bulkItems) {
-			itemFee += bulkItemFee
-		}
-		itemFee
-	} else {
-		0
-	}
-}
