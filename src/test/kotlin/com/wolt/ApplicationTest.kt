@@ -68,4 +68,49 @@ class CustomerTests {
 			HttpStatusCode.BadRequest
 		)
 	}
+	@Test
+	fun highCartValueTest() = testApplication {
+		testTemplate(
+			"""{"cart_value": 30000, "delivery_distance": 1000, "number_of_items": 4, "time": "2024-01-15T13:00:00Z"}""",
+			"""{"delivery_fee":0}""",
+			HttpStatusCode.OK
+		)
+	}
+
+	@Test
+	fun rushDeliveryTest() = testApplication {
+		testTemplate(
+			"""{"cart_value": 790, "delivery_distance": 2235, "number_of_items": 4, "time": "2024-01-26T17:00:00Z"}""",
+			"""{"delivery_fee":852}""",
+			HttpStatusCode.OK
+		)
+	}
+
+	@Test
+	fun largeOrderWithRushDeliveryTest() = testApplication {
+		testTemplate(
+			"""{"cart_value": 30000, "delivery_distance": 2235, "number_of_items": 15, "time": "2024-01-15T18:00:00Z"}""",
+			"""{"delivery_fee":0}""",
+			HttpStatusCode.OK
+		)
+	}
+
+//	@Test
+//	fun invalidDateFormatTest() = testApplication {
+//		testTemplate(
+//			"""{"cart_value": 790, "delivery_distance": 2235, "number_of_items": 4, "time": "invalid-date-format"}""",
+//			"Invalid date format",
+//			HttpStatusCode.BadRequest
+//		)
+//	}
+
+	@Test
+	fun invalidJsonTest() = testApplication {
+		testTemplate(
+			"""{"cart_value": 790, "delivery_distance": 2235, "number_of_items": 4, "time": "2024-01-15T13:00:00Z"""",
+			"",
+			HttpStatusCode.BadRequest
+		)
+	}
+
 }
