@@ -1,4 +1,4 @@
 POST http://0.0.0.0:8042/api/delivery-fee
 Content-Type: application/json
 
-{"cart_value": 1000, "delivery_distance": 1501, "number_of_items": 4, "time": "2024-01-15T13:00:00Z"}
+{"cart_value": 100, "delivery_distance": 1000, "number_of_items": 4, "time": "2024-01-15T13:00:00Z"}

@@ -2,7 +2,7 @@ FROM openjdk:11-jre-slim
 
 WORKDIR /app
 
-COPY . /app
+COPY . .
 
 EXPOSE 8042
 
