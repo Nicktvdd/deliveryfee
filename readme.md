@@ -3,18 +3,40 @@
 
 ## Description
 This is a simple Kotlin application using Ktor to calculate delivery fees based on specified parameters.
-There's multiple ways to run the application. Docker(recommended) or Gradle/Java.
+There's multiple ways to run the application. Docker (recommended) or Gradle/Java.
+
+---
 
 ## Table of contents
 - [Description](#Description)
+- - [Docker](#docker)
+- [Dependencies](#dependencies-1)
+- [Running the application](#running-the-application-1)
 - [Gradle](#Gradle)
   - [Dependencies](#dependencies)
   - [Running the application](#running-the-application)
-- [Docker](#docker)
-  - [Dependencies](#dependencies-1)
-  - [Running the application](#running-the-application-1)
 - [API endpoint](#api-endpoint)
   - [Example payload](#example-payload)
+- [Tests](#tests)
+
+---
+
+## Docker:
+### Dependencies:
+**Docker**: install docker through https://www.docker.com/.
+
+### Running the application
+To run the application using Docker, follow these steps:
+- Open a terminal window in the root directory of the project.
+- Use docker compose to automatically build the image and run the container.
+
+```bash
+docker compose up
+```
+
+This will start the application inside a Docker container, and you can access it by navigating to http://0.0.0.0:8042/api/delivery-fee in your web browser.
+
+---
 
 ## Gradle:
 ### Dependencies:
@@ -56,26 +78,7 @@ To run the application using Gradle, follow these steps:
 
 This will start the application, and you can access it by navigating to http://0.0.0.0:8042/api/delivery-fee in your web browser.
 
-## Docker:
-### Dependencies:
-**Docker**: install docker through https://www.docker.com/.
-
-### Running the application
-To run the application using Docker, follow these steps:
-- Open a terminal window in the root directory of the project.
-- Build the Docker image by running the following command:
-
-```bash 
-docker build -t deliveryfeecalculator .
-```
-
-Once the image is built, you can run the Docker container with the following command:
-
-```bash
-docker run -p 8042:8042 deliveryfeecalculator
-```
-
-This will start the application inside a Docker container, and you can access it by navigating to http://0.0.0.0:8042/api/delivery-fee in your web browser.
+---
 
 ## API Endpoint:
 The main API endpoint for calculating the delivery fee is:
@@ -93,6 +96,16 @@ Calculate the delivery fee by sending a JSON payload containing "cart_value," (i
 }
 ```
 Feel free to customize the payload based on your testing requirements.
+
+---
+
+## Tests
+You can navigate to the tests src/test/kotlin/com.wolt.
+Here you can find a costumizable http API test, where you can easily costumize the payload and run your own tests.
+And you can find the Application Test with many custom tests.
+You can run these by running CustomerTests in Intellij IDEa.
+
+---
 
 Please ensure you have Java or Docker installed on your system before running the application. 
 If you encounter any issues, check the project documentation for additional information.
