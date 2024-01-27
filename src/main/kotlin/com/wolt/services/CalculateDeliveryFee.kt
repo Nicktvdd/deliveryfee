@@ -4,6 +4,7 @@ import com.wolt.data.model.DeliveryRequest
 import com.wolt.services.CalculationServices.calculateDistanceFee
 import com.wolt.services.CalculationServices.calculateItemFee
 import com.wolt.services.CalculationServices.calculateMinimumOrderFee
+import com.wolt.services.CalculationServices.isItRush
 
 fun calculateDeliveryFee(request: DeliveryRequest): Int {
 	val freeDelivery = 20000
