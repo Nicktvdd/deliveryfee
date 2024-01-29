@@ -1,4 +1,4 @@
-package com.wolt.services.CalculationServices
+package com.wolt.services.calculationServices
 
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter

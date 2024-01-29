@@ -1,4 +1,4 @@
-package com.wolt.services.CalculationServices
+package com.wolt.services.calculationServices
 
 fun calculateMinimumOrderFee(cartValue: Int): Int {
 	val minimumCartValue = 1000

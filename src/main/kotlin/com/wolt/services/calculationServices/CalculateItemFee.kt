@@ -1,4 +1,4 @@
-package com.wolt.services.CalculationServices
+package com.wolt.services.calculationServices
 
 fun calculateItemFee(numberOfItems: Int): Int {
 	val baseAmountItems = 4

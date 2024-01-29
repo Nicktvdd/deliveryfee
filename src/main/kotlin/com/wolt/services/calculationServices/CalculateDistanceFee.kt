@@ -1,4 +1,4 @@
-package com.wolt.services.CalculationServices
+package com.wolt.services.calculationServices
 
 import kotlin.math.ceil
 
