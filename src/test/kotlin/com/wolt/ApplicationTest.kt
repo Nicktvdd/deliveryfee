@@ -95,15 +95,6 @@ class CustomerTests {
 		)
 	}
 
-//	@Test
-//	fun invalidDateFormatTest() = testApplication {
-//		testTemplate(
-//			"""{"cart_value": 790, "delivery_distance": 2235, "number_of_items": 4, "time": "invalid-date-format"}""",
-//			"Invalid date format",
-//			HttpStatusCode.BadRequest
-//		)
-//	}
-
 	@Test
 	fun invalidJsonTest() = testApplication {
 		testTemplate(

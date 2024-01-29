@@ -101,7 +101,7 @@ Feel free to customize the payload based on your testing requirements.
 
 ## Tests
 You can navigate to the tests src/test/kotlin/com.wolt.
-Here you can find a costumizable http API test, where you can easily costumize the payload and run your own tests.
+Here you can find a customizable http API test, where you can easily customize the payload and run your own tests.
 And you can find the Application Test with many custom tests.
 You can run these by running CustomerTests in Intellij IDEa.
 
